@@ -1,0 +1,8 @@
+{
+  "name": "Learning Resources Management System",
+  "description": "ระบบบริหารจัดการสื่อการเรียนรู้ สำหรับข้อสอบปลายภาค 7153403 พัฒนาด้วย React, Vite, Node.js, Express, Sequelize และ SQL",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

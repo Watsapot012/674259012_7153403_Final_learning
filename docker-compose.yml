@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  # 1. ฐานข้อมูล PostgreSQL
+  postgres_db:
+    image: postgres:16-alpine
+    container_name: learning_resources_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+      POSTGRES_DB: learning_resources_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d learning_resources_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 2. เซิร์ฟเวอร์ Backend (Node.js + Express + Sequelize)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: learning_resources_backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      DATABASE_URL: postgres://postgres:postgres_password@postgres_db:5432/learning_resources_db
+      DB_SSL: "false"
+      FRONTEND_URL: http://localhost:5173
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+
+  # 3. ส่วนหน้าบ้าน Frontend (React + Vite + Nginx)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: http://localhost:5000/api
+    container_name: learning_resources_frontend
+    restart: always
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+    driver: local
