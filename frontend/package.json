@@ -14,13 +14,9 @@
     "react-dom": "^19.0.1"
   },
   "devDependencies": {
-<<<<<<< HEAD
-    "@vitejs/plugin-react": "^6.1.1",
-=======
     "@tailwindcss/vite": "^4.3.3",
     "@vitejs/plugin-react": "^6.1.1",
     "tailwindcss": "^4.3.3",
->>>>>>> f6f9bce (Edit Update)
     "vite": "^8.3.0"
   }
 }
