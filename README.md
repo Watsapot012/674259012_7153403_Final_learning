@@ -416,7 +416,7 @@ docker compose down -v
      - **Build Command:** `npm install`
      - **Start Command:** `node index.js`
    - เพิ่ม **Environment Variables** ในแท็บ Environment:
-     - `DATABASE_URL`: *(วาง Connection String ของ PostgreSQL จากข้อ 2)*
+     - `DATABASE_URL`: *(วาง Connection String แบบเต็มของ PostgreSQL จากข้อ 2; Neon สามารถใช้ `DATABASE_URL_UNPOOLED` แทนได้)*
      - `DB_SSL`: `true`
      - `NODE_ENV`: `production`
      - `FRONTEND_URL`: `https://your-app.vercel.app` *(หรือใส่ภายหลังเมื่อ Deploy Frontend เสร็จ)*

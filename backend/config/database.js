@@ -3,9 +3,32 @@ require('dotenv').config();
 
 let sequelize;
 
-if (process.env.DATABASE_URL) {
+const databaseUrlEntry = [
+  ['DATABASE_URL', process.env.DATABASE_URL],
+  ['DATABASE_URL_UNPOOLED', process.env.DATABASE_URL_UNPOOLED],
+].find(([, value]) => typeof value === 'string' && value.trim());
+
+if (databaseUrlEntry) {
+  const [variableName, value] = databaseUrlEntry;
+  const databaseUrl = value.trim();
+  let parsedUrl;
+
+  try {
+    parsedUrl = new URL(databaseUrl);
+  } catch {
+    throw new Error(
+      `${variableName} must be a complete PostgreSQL URL beginning with postgres:// or postgresql://.`
+    );
+  }
+
+  if (!['postgres:', 'postgresql:'].includes(parsedUrl.protocol)) {
+    throw new Error(
+      `${variableName} must use the postgres:// or postgresql:// protocol.`
+    );
+  }
+
   // รองรับ Cloud Database เช่น Render PostgreSQL, Supabase, Neon
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
+  sequelize = new Sequelize(databaseUrl, {
     dialect: 'postgres',
     dialectOptions: {
       ssl: process.env.DB_SSL === 'false' ? false : {
@@ -35,17 +58,9 @@ if (process.env.DATABASE_URL) {
     }
   );
 } else {
-  // สภาพแวดล้อมสำหรับรันในเครื่อง Local หรือ Preview ที่ยังไม่ได้ต่อกับโฮสต์ PostgreSQL ภายนอก
-  // ใช้ PostgreSQL Dialect แบบ Pure JavaScript ในหน่วยความจำ (pg-mem)
-  const { newDb } = require('pg-mem');
-  const memDb = newDb();
-  const pgModule = memDb.adapters.createPg();
-
-  sequelize = new Sequelize({
-    dialect: 'postgres',
-    dialectModule: pgModule,
-    logging: false,
-  });
+  throw new Error(
+    'Database is not configured. Set DATABASE_URL (or DATABASE_URL_UNPOOLED), or provide DB_HOST, DB_NAME, and DB_USER.'
+  );
 }
 
 module.exports = sequelize;
