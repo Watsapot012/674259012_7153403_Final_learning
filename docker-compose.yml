@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 version: '3.8'
 
+=======
+>>>>>>> f6f9bce (Edit Update)
 services:
   # 1. ฐานข้อมูล PostgreSQL
   postgres_db:
