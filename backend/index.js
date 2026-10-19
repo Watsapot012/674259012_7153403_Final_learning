@@ -43,6 +43,15 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    service: 'Learning Resources API',
+    status: 'OK',
+    health: '/health',
+    resources: '/api/learning-resources',
+  });
+});
+
 // Health Check Endpoint สำหรับ Render และการตรวจสอบสถานะระบบ
 app.get('/health', (req, res) => {
   res.status(200).json({

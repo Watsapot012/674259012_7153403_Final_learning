@@ -6,7 +6,18 @@
 // กำหนด BASE URL จาก Environment Variable VITE_API_URL หรือใช้ค่าเริ่มต้น /api
 // ตัดเครื่องหมาย slash ท้ายสุดออกเพื่อป้องกันการต่อ URL ผิดพลาด
 const RAW_URL = import.meta.env.VITE_API_URL || '/api';
-const API_BASE_URL = RAW_URL.replace(/\/+$/, '');
+const NORMALIZED_URL = RAW_URL.trim().replace(/\/+$/, '');
+const API_BASE_URL = (() => {
+  if (!/^https?:\/\//i.test(NORMALIZED_URL)) {
+    return NORMALIZED_URL;
+  }
+
+  const url = new URL(NORMALIZED_URL);
+  if (url.pathname === '/') {
+    url.pathname = '/api';
+  }
+  return url.toString().replace(/\/+$/, '');
+})();
 
 /**
  * ฟังก์ชันช่วยแปลง Response และจัดการ Error จาก Backend
