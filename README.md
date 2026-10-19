@@ -448,16 +448,12 @@ docker compose down -v
 กรอก URL ที่ได้จากการ Deploy จริงในช่องด้านล่าง:
 
 - **Frontend Production URL (Vercel):**
-  `https://______________________________________.vercel.app`
+  https://final-project-learning-l4wt-git-main-674259012-7005.vercel.app
 
 - **Backend Production URL (Render):**
-  `https://______________________________________.onrender.com`
+  https://final-project-learning.onrender.com
 
-- **Backend Health Check URL:**
-  `https://______________________________________.onrender.com/health`
 
-- **API Base URL:**
-  `https://______________________________________.onrender.com/api/learning-resources`
 
 ---
 
