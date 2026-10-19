@@ -434,6 +434,7 @@ docker compose down -v
    - **Root Directory:** คลิก Edit แล้วเลือกโฟลเดอร์ `frontend`
    - **Build Command:** `npm run build`
    - **Output Directory:** `dist`
+   - ตรวจสอบว่า commit ทั้ง `frontend/package.json` และ `frontend/package-lock.json` เพื่อให้ Vercel ติดตั้ง dependencies รวมถึง Tailwind CSS ได้ครบ
 5. กำหนด **Environment Variable**:
    - Name: `VITE_API_URL`
    - Value: `https://your-backend.onrender.com/api` *(ระบุ URL ของ Render โดยต่อท้ายด้วย /api)*
